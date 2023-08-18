@@ -954,7 +954,7 @@ const elementsData = [
     ]
 
 ];
-
+/*
 const qrcode = new Html5Qrcode("reader");
 
 function getParameterByName(name) {
@@ -992,3 +992,50 @@ function updateCardAndBiography(elementData) {
     const biographyDiv = document.querySelector(".biography");
     biographyDiv.textContent = elementData.biography;
 }
+*/
+
+// Função para atualizar as informações do elemento
+function updateElementInfo(elementId) {
+    const elementData = elementsData.find(data => data.id === elementId);
+  
+    if (elementData) {
+      const imgElement = document.querySelector(".img-element");
+      imgElement.src = `${elementData.id}.jpg`;
+  
+      const atomicNumberSpan = document.querySelector(".atomic-number");
+      atomicNumberSpan.textContent = elementData.atomicNumber;
+  
+      const symbolSpan = document.querySelector(".symbol");
+      symbolSpan.textContent = elementData.symbol;
+  
+      const nameSpan = document.querySelector(".name");
+      nameSpan.textContent = elementData.name;
+  
+      const atomicMassSpan = document.querySelector(".atomicMass");
+      atomicMassSpan.textContent = elementData.atomicMass;
+  
+      const biographyDiv = document.querySelector(".biography");
+      biographyDiv.textContent = elementData.biography;
+    }
+  }
+  
+  // Função para obter o parâmetro "id" da URL
+  function getParameterByName(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+  }
+  
+  // Função para carregar as informações do elemento com base no ID da URL
+  function loadElementFromUrl() {
+    const elementId = parseInt(getParameterByName("id"));
+    if (!isNaN(elementId)) {
+      updateElementInfo(elementId);
+    } else {
+      console.error("Invalid element ID");
+    }
+  }
+  
+  // Carregar as informações do elemento quando a página é carregada
+  window.onload = () => {
+    loadElementFromUrl();
+  };
