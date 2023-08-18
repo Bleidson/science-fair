@@ -1010,18 +1010,21 @@
 
             const qrcode = new Html5Qrcode("reader");
 
-            qrcode.scan((content) => {
-                // O conteúdo do QR code lido
-                const elementId = parseInt(content); // Suponha que o QR code contenha o ID do elemento
+            function getParameterByName(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
 
-                const elementData = elementsData.find(data => data.id === elementId);
+            // Obtém o valor do parâmetro "id" da URL
+            const elementId = parseInt(getParameterByName("id"));
 
-                if (elementData) {
-                    updateCardAndBiography(elementData);
-                }
-            }, err => {
-                // Lidar com erros de leitura do QR code
-            });
+            // Busca o elemento no JSON pelo ID
+            const elementData = elementsData.find(data => data.id === elementId);
+
+            // Atualiza o cartão e a biografia com as informações do elemento
+            if (elementData) {
+                updateCardAndBiography(elementData);
+            }
 
             function updateCardAndBiography(elementData) {
                 const imgElement = document.querySelector(".img-element");
