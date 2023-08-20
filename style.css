@@ -24,10 +24,11 @@ body{
     font-family: var(--font-f);
 }
 
-header{
-    text-align: center;
+h1{
+    background-image: linear-gradient(to right, var(--cor-very-dark-blue-card), transparent);
     color: white;
-    padding: 30px;
+    padding-left: 10px;
+    text-align: center;
 }
 
 .card-section{
@@ -93,17 +94,35 @@ header{
     background-image: linear-gradient(to right, var(--cor-very-dark-blue-card), transparent);
     color: white;
     padding-left: 10px;
+    text-align: center;
     
 }
 
-.biography{
-    padding: 20px;
-    text-indent: 2em;
-    text-align: justify;
-    color: white;
-    line-height: 1.5em;
+.creator-element{
+    padding: 30px;
+    display: flex;
+    flex-direction:column ;
+    
 }
 
+.img-creator{
+    text-align: center;
+    
+}
+
+.img-creator img{
+    width: 90%;
+    border-radius: 15px;
+  
+    box-shadow: 10px 10px var(--cor-very-dark-blue-line);
+    border: 2px solid var(--cor-soft-blue);
+    margin-bottom: 30px;
+}
+.biography{
+    text-align: justify;
+    color: white;
+    text-indent: 4rem;
+}
 footer{
     text-align: center;
     background-color: var(--cor-very-dark-blue-card);
@@ -115,4 +134,22 @@ footer a{
     background-color: white;
     color: var(--cor-very-dark-blue-main);
     font-weight: 700;
+}
+
+@media (min-width:600px) {
+    .creator-element{
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .img-creator{
+        flex: 0.7;
+        margin-bottom: 0px;
+        margin-right: 30px;
+        max-width: 500px;
+    }
+    .biography{
+        flex: 1.3;
+        font-size: 22px;
+    }
 }
