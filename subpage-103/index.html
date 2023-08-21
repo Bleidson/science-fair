@@ -207,56 +207,60 @@
 
     <script>
         // Importe o JSON com os dados dos elementos
-        const elementsData = require('elementos.json');
+        fetch('elementos.json')
+            .then(response => response.json())
+            .then(elementsData => {
+                // Iterar sobre as subpages de 1 a 118
+                for (let elementId = 1; elementId <= 118; elementId++) {
+                    const indexPagePath = `./subpage-${elementId}/`; // Caminho para a pasta da subpage
 
 
-        // Função para preencher as informações em uma página
-        function updatePageData(elementId) {
-            const elementData = elementsData[elementId - 1];
+                    // Criar um novo XMLHttpRequest para cada subpage
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', indexPagePath, true);
 
-            const nameSpan = document.querySelector('.name');
-            nameSpan.textContent = elementData.name;
+                    // Quando o arquivo HTML for carregado, atualizar as informações
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(xhr.responseText, 'text/html');
+                            updatePageData(elementId, doc);
+                        }
+                    };
 
-            const symbolSpan = document.querySelector('.symbol');
-            symbolSpan.textContent = elementData.symbol;
-
-            const atomicNumberSpan = document.querySelector('.atomic-number');
-            atomicNumberSpan.textContent = elementData.atomicNumber;
-
-            const atomicMassSpan = document.querySelector('.atomicMass');
-            atomicMassSpan.textContent = elementData.atomicMass;
-
-            const imgElement = document.querySelector('.img-element');
-            imgElement.src = `caminho/para/imagem-${elementId}.jpg`;
-
-            const imgCreator = document.querySelector('.img-creator img');
-            imgCreator.src = `caminho/para/imagem-${elementId}.jpg`;
-
-            const biographyDiv = document.querySelector('.biography');
-            biographyDiv.textContent = elementData.biography;
-        }
-
-        // Iterar sobre as subpages de 1 a 118
-        for (let elementId = 1; elementId <= 118; elementId++) {
-            const indexPagePath = `./${elementId}/index.html`; // Caminho para a subpage index.html
-
-            // Criar um novo XMLHttpRequest para cada subpage
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', indexPagePath, true);
-
-            // Quando o arquivo HTML for carregado, atualizar as informações
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(xhr.responseText, 'text/html');
-                    updatePageData(elementId, doc);
+                    // Enviar a requisição para carregar o arquivo HTML
+                    xhr.send();
                 }
-            };
+                
+                // Função para preencher as informações em uma página
+                function updatePageData(elementId, doc) {
+                    const elementData = elementsData[elementId - 1];
 
-            // Enviar a requisição para carregar o arquivo HTML
-            xhr.send();
-        }
+                    const nameSpan = doc.querySelector('.name');
+                    nameSpan.textContent = elementData.name;
 
+                    const symbolSpan = doc.querySelector('.symbol');
+                    symbolSpan.textContent = elementData.symbol;
+
+                    const atomicNumberSpan = doc.querySelector('.atomic-number');
+                    atomicNumberSpan.textContent = elementData.atomicNumber;
+
+                    const atomicMassSpan = doc.querySelector('.atomicMass');
+                    atomicMassSpan.textContent = elementData.atomicMass;
+
+                    const imgElement = doc.querySelector('.img-element');
+                    imgElement.src = `caminho/para/imagem-${elementId}.jpg`;
+
+                    const imgCreator = doc.querySelector('.img-creator img');
+                    imgCreator.src = `caminho/para/imagem-${elementId}.jpg`;
+
+                    const biographyDiv = doc.querySelector('.biography');
+                    biographyDiv.textContent = elementData.biography;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar o arquivo JSON:', error);
+            });
     </script>
     
 </body>
